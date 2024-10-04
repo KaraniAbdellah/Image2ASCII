@@ -29,9 +29,9 @@
 		loading image means copy of image go to memory
 	---------------
 	How:
-		stbi_load(char *path, int *width, int *height, int *channels, 0);
+		stbi_load(char *img_path, int *width, int *height, int *channels, 0);
 			- channels: refer to the pixels [RGB || RGBA]
-			- 0: oding just RGB & ignore Alpha Channel
+			- 0: Loding just RGB & ignore Alpha Channel
 	
 */
 
@@ -48,7 +48,7 @@
 		image save with PNG or JPEG format.
 	---------------
 	How:
-		stbi_write_png(char *path, width, height, channels, img, width * channels);
+		stbi_write_png(char *path_to_save, width, height, channels, img, width * channels);
 			- width: gives the total number of values in one row of the image.
 			- channels: each pixles how many valus has [3 || 4]
 			- height: number rows in image
@@ -90,6 +90,16 @@
 */
 
 
+// Resume
+/*
+	- Load image
+	- Save a copy [PNG || JPEG] 
+		[make sure to use a deffrent extention(png --> jpeg || jpeg --> png)]
+	- Modify
+	- Save a new version 
+		[make sure to use the same image name]
+*/
+
 
 
 
@@ -106,23 +116,38 @@ int main(int argc, char **argv) {
 	printf("Loading Succefflly\n");
 	printf("Info: width = %d, height = %d, channels = %d\n", width, height, channels);
 	
+	
 	// Saving the image
-	stbi_write_png("images/youtube.png", width, height, channels, img, width * channels);
-	stbi_write_jpg("images/youtube.jpeg", width, height, channels, img, 100);
+	// stbi_write_png("images/youtube.png", width, height, channels, img, width * channels);
+	// stbi_write_jpg("images/youtube.jpeg", width, height, channels, img, 100);
+	// I do not need to save it, because I am going to save an image with a deffrent name
+	
 	
 	// Loop thought image data
+	const char density[40] = "M@#W$9876543210?!abc:;+=-,._";
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
-			int index = (y * width + x) * channels; // calculate pixel index
-			unsigned int r = img[index]; // red value
-			unsigned int g = img[index + 1]; // green value
-			unsigned int b = img[index + 2]; // blue value
+			// get the channels
+			int pixel_index = (y * width + x) * channels;
+			unsigned int red = img[pixel_index];
+			unsigned int green = img[pixel_index + 1];
+			unsigned int blue = img[pixel_index + 2];
 			
-			printf("(%d,%d,%d)|", r, g, b);
+			// printf("(%d,%d,%d)|", red, green, blue);
 			// printf("pixel (%d, %d): R--> %d, G--> %d, B--> %d\n", x, y, r, g, b);
+
+			// change all pixles to white color 
+			img[pixel_index] = 'a';
+			img[pixel_index + 1] = 'a';
+			img[pixel_index + 2] = 'a';
 		}
-		printf("\n");
+		// printf("\n");
 	}
+	
+	
+	// Saving the new image version
+	stbi_write_jpg("images/output.jpg", width, height, channels, img, 100);
+	
 	
 	// Free the memory
 	stbi_image_free(img);
@@ -135,11 +160,6 @@ int main(int argc, char **argv) {
 
 
 
-
-
-// the documentation show how you can convert image to grayscale images
-// grayscale black & white image
-// the goal is to prrint the data image
 
 
 
