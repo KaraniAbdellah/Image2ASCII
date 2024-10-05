@@ -86,7 +86,13 @@
 		- real representation:
 			row 1: [R1, G1, B1 | R2, G2, B2 | R3, G3, B3]
 			row 2: [R4, G4, B4 | R5, G5, B5 | R6, G6, B6]
-			
+	---------------
+	Convert to Ascii code:
+		- to convert we need to:
+			--> Brightness Calculation (average of R, G, B value):
+			--> Map to Density:
+			--> Replace Channel: 
+				
 */
 
 
@@ -121,30 +127,54 @@ int main(int argc, char **argv) {
 	// stbi_write_png("images/youtube.png", width, height, channels, img, width * channels);
 	// stbi_write_jpg("images/youtube.jpeg", width, height, channels, img, 100);
 	// I do not need to save it, because I am going to save an image with a deffrent name
+
+	// Define Variables	
+	const char density[40] = "@#B%=+-. ";
+	char **ascii_code = (char **) malloc(sizeof(char *) * height);
+	for (int i = 0; i < height; i++) {
+		ascii_code[i] = (char *) malloc(sizeof(char) * width);
+	}
 	
 	
 	// Loop thought image data
-	const char density[40] = "M@#W$9876543210?!abc:;+=-,._";
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
+			
 			// get the channels
 			int pixel_index = (y * width + x) * channels;
 			unsigned int red = img[pixel_index];
 			unsigned int green = img[pixel_index + 1];
 			unsigned int blue = img[pixel_index + 2];
 			
-			// printf("(%d,%d,%d)|", red, green, blue);
-			// printf("pixel (%d, %d): R--> %d, G--> %d, B--> %d\n", x, y, r, g, b);
+			// brightness calculation
+			float brightness = 0.299 * red + 0.587 * green + 0.114 * blue;
+			
+			// Map to density
+			int density_size = sizeof(density) - 1;
+			int index = (int)(brightness * (density_size - 1) / 255); 
+			char ascii_char = density[index];
 
-			// change all pixles to white color 
-			img[pixel_index] = 'a';
-			img[pixel_index + 1] = 'a';
-			img[pixel_index + 2] = 'a';
+			// Replace Channel
+			img[pixel_index] = ascii_char;
+	        img[pixel_index + 1] = ascii_char;
+	        img[pixel_index + 2] = ascii_char;
+	        
+	        // Store ascci_code
+	        ascii_code[y][x] = ascii_char;
+	        
 		}
-		// printf("\n");
 	}
+
 	
+	// Print the ASCII art to the terminal
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+		    printf("%c", ascii_code[y][x]);
+		}
+		printf("\n");
+	}	
 	
+
 	// Saving the new image version
 	stbi_write_jpg("images/output.jpg", width, height, channels, img, 100);
 	
@@ -161,6 +191,9 @@ int main(int argc, char **argv) {
 
 
 
+// understand the parts of [brightness, map density, replace]
+// write it
+// reduce the output
 
 
 
