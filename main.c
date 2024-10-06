@@ -113,74 +113,8 @@
 
 int main(int argc, char **argv) {
 	
-	// Loading the image
-	int width, height, channels;
-	unsigned char *img = stbi_load("images/youtube.png", &width, &height, &channels, 0);
-	if (img == NULL) {
-		perror("Failed Loading Image"); exit(1);
-	}
-	printf("Loading Succefflly\n");
-	printf("Info: width = %d, height = %d, channels = %d\n", width, height, channels);
 	
-	
-	// Saving the image
-	// stbi_write_png("images/youtube.png", width, height, channels, img, width * channels);
-	// stbi_write_jpg("images/youtube.jpeg", width, height, channels, img, 100);
-	// I do not need to save it, because I am going to save an image with a deffrent name
-
-	// Define Variables	
-	const char density[40] = "@#B%=+-. ";
-	char **ascii_code = (char **) malloc(sizeof(char *) * height);
-	for (int i = 0; i < height; i++) {
-		ascii_code[i] = (char *) malloc(sizeof(char) * width);
-	}
-	
-	
-	// Loop thought image data
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			
-			// get the channels
-			int pixel_index = (y * width + x) * channels;
-			unsigned int red = img[pixel_index];
-			unsigned int green = img[pixel_index + 1];
-			unsigned int blue = img[pixel_index + 2];
-			
-			// brightness calculation
-			float brightness = 0.299 * red + 0.587 * green + 0.114 * blue;
-			
-			// Map to density
-			int density_size = sizeof(density) - 1;
-			int index = (int)(brightness * (density_size - 1) / 255); 
-			char ascii_char = density[index];
-
-			// Replace Channel
-			img[pixel_index] = ascii_char;
-	        img[pixel_index + 1] = ascii_char;
-	        img[pixel_index + 2] = ascii_char;
-	        
-	        // Store ascci_code
-	        ascii_code[y][x] = ascii_char;
-	        
-		}
-	}
-
-	
-	// Print the ASCII art to the terminal
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-		    printf("%c", ascii_code[y][x]);
-		}
-		printf("\n");
-	}	
-	
-
-	// Saving the new image version
-	stbi_write_jpg("images/output.jpg", width, height, channels, img, 100);
-	
-	
-	// Free the memory
-	stbi_image_free(img);
+	// make it alone
 	
 	
 	
@@ -188,12 +122,6 @@ int main(int argc, char **argv) {
 		
 }
 
-
-
-
-// understand the parts of [brightness, map density, replace]
-// write it
-// reduce the output
 
 
 
