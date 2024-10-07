@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 
 
@@ -84,13 +86,20 @@
 	Visual:
 		- we have image with [width: 3 pixels, height: 2 rows, channels: 3(rgb)]
 		- real representation:
-			row 1: [R1, G1, B1 | R2, G2, B2 | R3, G3, B3]
+			row 1: [R1, G1, B1 | R2, G2, B2 | R3, G3, B3] || [0, 1, 2] | [3, 4, 5] | [6, 7, 8]
 			row 2: [R4, G4, B4 | R5, G5, B5 | R6, G6, B6]
 	---------------
 	Convert to Ascii code:
 		- to convert we need to:
-			--> Brightness Calculation (average of R, G, B value):
+			--> Brightness Calculation:
+				- Brightness is about how light or dark a color looks.
+				- To calculate brightness: (red + green + blue) / 3
+				- Goal: measure how light or dark each part of image,
+					this help to image in ascii code.
 			--> Map to Density:
+				- Goal: take the brightness value and match
+					it into a specific character.
+				
 			--> Replace Channel: 
 				
 */
@@ -113,8 +122,54 @@
 
 int main(int argc, char **argv) {
 	
+	// Define the variables
+	int width, height, channels;
+	char density[200] = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
+	int density_size = strlen(density);
 	
-	// make it alone
+	// Load image
+	unsigned char *img = stbi_load("images/jerry.png", &width, &height, &channels, 0);
+	if (img == NULL) {
+		printf("can not load this image\n"); exit(1);
+	}
+	
+	printf("Width = %d, Height = %d, Channels = %d \n", width, height, channels);
+	
+	// Looping thought image data
+	/*
+		height: number of lines
+		width: number of columns
+	*/
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			// Calculation of image pixel's
+			int index_pixel = ((i * width) + j) * channels;
+			
+			// Get channels
+			int red = img[index_pixel];
+			int green = img[index_pixel + 1];
+			int blue = img[index_pixel + 2];
+
+			// Convert to ASCII code
+			/*
+				256: The highest brightness level
+				(k + 1): Checks the next level of brightness
+				/ density_size: Divides brightness into equal parts based on how many characters you have.
+				
+			*/
+			int brightness = (red + green + blue) / 3;
+			for (int k = 0; k < density_size; k++) {
+				if (brightness < (256 * (k + 1) / density_size)) {
+					char asciiChar = density[k];
+					printf("%c", asciiChar); usleep(1000);
+					break;
+				}
+			}
+		}
+		printf("\n");
+	}
+	
+	
 	
 	
 	
