@@ -124,16 +124,15 @@ int main(int argc, char **argv) {
 	
 	// Define the variables
 	int width, height, channels;
-	char density[200] = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
+	char density[20] = " .:ioVM@";
 	int density_size = strlen(density);
 	
 	// Load image
-	unsigned char *img = stbi_load("images/jerry.png", &width, &height, &channels, 0);
+	unsigned char *img = stbi_load("images/youtube.png", &width, &height, &channels, 0);
 	if (img == NULL) {
 		printf("can not load this image\n"); exit(1);
 	}
 	
-	printf("Width = %d, Height = %d, Channels = %d \n", width, height, channels);
 	
 	// Looping thought image data
 	/*
@@ -144,6 +143,7 @@ int main(int argc, char **argv) {
 		for (int j = 0; j < width; j++) {
 			// Calculation of image pixel's
 			int index_pixel = ((i * width) + j) * channels;
+			// [R1, G1, B1, R2, G2, B2, R3, G3, B3, ...] --> 0 3 5 
 			
 			// Get channels
 			int red = img[index_pixel];
@@ -161,7 +161,7 @@ int main(int argc, char **argv) {
 			for (int k = 0; k < density_size; k++) {
 				if (brightness < (256 * (k + 1) / density_size)) {
 					char asciiChar = density[k];
-					printf("%c", asciiChar); usleep(1000);
+					printf("%c", asciiChar); usleep(500);
 					break;
 				}
 			}
@@ -170,12 +170,15 @@ int main(int argc, char **argv) {
 	}
 	
 	
-	
-	
-	
 	return 0;	
 		
 }
+
+
+// find good width & height for image
+// make a video
+// make a documentation about the project
+// share it --> take your time
 
 
 
