@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to ASCII Converter Using stb_image Library</title>
-</head>
-<body>
 
 <h1>Image to ASCII Converter Using <code>stb_image</code> Library</h1>
 
@@ -86,7 +78,4 @@ int blue = img[index_pixel + 2];
 <p>Use this command to compile:</p>
 <pre><code>gcc main.c -o main -lm</code></pre>
 <pre><code>./main</code></pre>
-
-</body>
-</html>
 
