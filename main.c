@@ -128,7 +128,7 @@ int main(int argc, char **argv) {
 	int density_size = strlen(density);
 	
 	// Load image
-	unsigned char *img = stbi_load("images/youtube.png", &width, &height, &channels, 0);
+	unsigned char *img = stbi_load("images/tom2.png", &width, &height, &channels, 0);
 	if (img == NULL) {
 		printf("can not load this image\n"); exit(1);
 	}
@@ -161,7 +161,7 @@ int main(int argc, char **argv) {
 			for (int k = 0; k < density_size; k++) {
 				if (brightness < (256 * (k + 1) / density_size)) {
 					char asciiChar = density[k];
-					printf("%c", asciiChar); usleep(500);
+					printf("%c", asciiChar); usleep(1000);
 					break;
 				}
 			}
@@ -173,14 +173,6 @@ int main(int argc, char **argv) {
 	return 0;	
 		
 }
-
-
-// find good width & height for image
-// make a video
-// make a documentation about the project
-// share it --> take your time
-
-
 
 
 
