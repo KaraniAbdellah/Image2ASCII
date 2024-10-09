@@ -76,6 +76,5 @@ int blue = img[index_pixel + 2];
 
 <h3>5. Compiling the Code</h3>
 <p>Use this command to compile:</p>
-<pre><code>gcc main.c -o main -lm</code></pre>
-<pre><code>./main</code></pre>
+<pre><code>gcc main.c -o main -lm && ./main</code></pre>
 
