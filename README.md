@@ -1,8 +1,14 @@
 
 <h1>Image to ASCII Converter Using <code>stb_image</code> Library</h1>
 
+
+<h2>Images</h2>
+<img src="images/simpson_screen.png" alt="simpson">
+<img src="images/tom_screen.png" alt="tom">
+
 <h2>Introduction</h2>
 <p>This project uses the <code>stb_image</code> library to load and save images in C. The goal is to convert images into ASCII art.</p>
+
 
 <h2>Steps</h2>
 
